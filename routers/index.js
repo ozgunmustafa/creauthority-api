@@ -8,7 +8,9 @@ const user = require('./user');
 const admin = require('./admin');
 
 const router = express.Router();
-router.use(cors({ origin: '*', credentials: true }));
+
+router.use(cors());
+
 router.use(function (req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
   res.header(
