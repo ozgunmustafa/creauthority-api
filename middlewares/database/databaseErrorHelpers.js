@@ -28,10 +28,16 @@ const checkCategoryExist = asyncErrorWrapper(async (req, res, next) => {
 const checkPostExist = asyncErrorWrapper(async (req, res, next) => {
   const postId = req.params.id || req.params.post_id;
 
-  const post = await Post.findById(postId).populate('category').populate({
-    path: 'likes',
-    select: 'name profile_img',
-  });
+  const post = await Post.findById(postId)
+    .populate('category')
+    .populate({
+      path: 'likes',
+      select: 'name profile_img about',
+    })
+    .populate({
+      path: 'user',
+      select: 'name profile_img about',
+    });
   if (!post) {
     return next(new CustomError('Post not found', 404));
   }

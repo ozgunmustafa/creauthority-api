@@ -32,7 +32,23 @@ const getSingleCategory = asyncErrorWrapper(async (req, res, next) => {
 });
 const getAllPostByCategory = asyncErrorWrapper(async (req, res, next) => {
   const { id } = req.params;
-  const category = await Category.findById(id).populate('posts');
+  const category = await Category.findById(id)
+    .populate({
+      path: 'posts',
+      populate: {
+        path: 'category',
+        select: 'title description createdAt',
+        model: 'Category',
+      },
+    })
+    .populate({
+      path: 'posts',
+      populate: {
+        path: 'user',
+        select: 'name profile_img about',
+        model: 'User',
+      },
+    });
   //const posts = category.posts;
 
   return res.status(200).json({

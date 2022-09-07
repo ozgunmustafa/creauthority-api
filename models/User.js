@@ -38,7 +38,11 @@ const UserSchema = new Schema({
   title: {
     type: String,
   },
-  about: { type: String },
+  about: {
+    type: String,
+    default:
+      'Aliquip Lorem veniam reprehenderit velit nisi culpa laboris deserunt adipisicing laborum.',
+  },
   links: {
     type: Object,
   },

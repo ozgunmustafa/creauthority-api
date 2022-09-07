@@ -6,7 +6,7 @@ const asyncErrorWrapper = require('express-async-handler');
 const getAllPost = asyncErrorWrapper(async (req, res, next) => {
   const posts = await Post.find().populate('category').populate({
     path: 'user',
-    select: 'name profile_img',
+    select: 'name profile_img about',
   });
 
   return res.status(200).json({
@@ -31,7 +31,6 @@ const createPost = asyncErrorWrapper(async (req, res, next) => {
 
 const getSinglePost = asyncErrorWrapper(async (req, res, next) => {
   const { id } = req.params;
-
   return res.status(200).json({
     success: true,
     data: req.data,

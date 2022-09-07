@@ -22,8 +22,18 @@ const addNewCommentToPost = asyncErrorWrapper(async (req, res, next) => {
 const getAllCommentsByPost = asyncErrorWrapper(async (req, res, next) => {
   const { post_id } = req.params;
 
-  const post = await Post.findById(post_id).populate('comments');
+  const post = await Post.findById(post_id).populate({
+    path: 'comments',
+    populate: {
+      path: 'user',
+      select: 'name profile_img about',
+      model: 'User',
+    },
+  });
+
   const comments = post.comments;
+
+  console.log(comments);
 
   return res.status(200).json({
     success: true,
@@ -41,7 +51,7 @@ const getSingleComment = asyncErrorWrapper(async (req, res, next) => {
     })
     .populate({
       path: 'user',
-      select: 'name profile_img',
+      select: 'name profile_img about',
     });
 
   return res.status(200).json({
@@ -69,15 +79,15 @@ const deleteComment = asyncErrorWrapper(async (req, res, next) => {
 
   await Comment.findByIdAndRemove(comment_id);
 
-  const post =await Post.findById(post_id);
+  const post = await Post.findById(post_id);
   post.comments.splice(post.comments.indexOf(comment_id), 1);
 
   await post.save();
 
   return res.status(200).json({
     success: true,
-    message:"Deleted Successfully"
-  })
+    message: 'Deleted Successfully',
+  });
 });
 const likeComment = asyncErrorWrapper(async (req, res, next) => {
   const { comment_id } = req.params;
