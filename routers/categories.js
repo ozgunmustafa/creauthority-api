@@ -19,7 +19,7 @@ router.get('/', getAllCategories);
 router.get('/featured', getFeaturedCategories);
 router.get('/popular', getPopularCategories);
 //router.get('/:id', checkCategoryExist, getSingleCategory);
-router.get('/:id', checkCategoryExist, getAllPostByCategory);
+router.get('/:id', [checkCategoryExist], getAllPostByCategory);
 router.post('/create', createCategory);
 router.get('/:id/follow', [getAccessToRoute], followCategory);
 

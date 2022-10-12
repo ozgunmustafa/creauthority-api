@@ -1,4 +1,3 @@
-const cors = require('cors');
 const express = require('express');
 
 const categories = require('./categories');
@@ -9,12 +8,6 @@ const admin = require('./admin');
 
 const router = express.Router();
 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
-router.use(cors(corsOptions));
 
 // router.use(function (req, res, next) {
 //   res.header('Access-Control-Allow-Credentials', true);

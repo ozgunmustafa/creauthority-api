@@ -4,10 +4,16 @@ const CustomError = require('../helpers/error/CustomError');
 const asyncErrorWrapper = require('express-async-handler');
 
 const getAllPost = asyncErrorWrapper(async (req, res, next) => {
-  const posts = await Post.find().populate('category').populate({
-    path: 'user',
-    select: 'name profile_img about',
-  });
+  const posts = await Post.find()
+    .populate('category')
+    .populate({
+      path: 'likes',
+      select: 'name profile_img about',
+    })
+    .populate({
+      path: 'user',
+      select: 'name profile_img about',
+    });
 
   return res.status(200).json({
     success: true,

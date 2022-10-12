@@ -18,6 +18,7 @@ const checkUserExist = asyncErrorWrapper(async (req, res, next) => {
 const checkCategoryExist = asyncErrorWrapper(async (req, res, next) => {
   const { id } = req.params;
   const category = await Category.findById(id);
+  
   if (!category) {
     return next(new CustomError('Category not found', 404));
   }

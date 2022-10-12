@@ -25,9 +25,12 @@ const getAccessToRoute = (req, res, next) => {
       return next(new CustomError('Token is Expired', 401));
     }
 
+    console.log(decoded);
+
     req.user = {
       id: decoded.id,
       name: decoded.name,
+      email: decoded.email,
     };
     next();
   });

@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Category = require('../models/Category');
+const jwt = require('jsonwebtoken');
 
 const CustomError = require('../helpers/error/CustomError');
 const asyncErrorWrapper = require('express-async-handler');
@@ -34,6 +35,42 @@ const login = asyncErrorWrapper(async (req, res, next) => {
   }
   //console.log(user);
   sentJwtToClient(user, res);
+
+  const token = jwt.sign(
+    {
+      _id: user._id,
+      email: user.email,
+      exp: Math.floor(Date.now() / 1000) + 60 * 60,
+    },
+    process.env.JWT_SECRET_KEY,
+  );
+  res.status(200).json({
+    token,
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      profile_img: user.profile_img,
+    },
+  });
+});
+
+const verifyToken = asyncErrorWrapper(async (req, res, next) => {
+  const authToken = req?.headers?.authorization?.split(' ')[1];
+  jwt.verify(authToken, process.env.JWT_SECRET_KEY, async (err, decoded) => {
+    if (err) {
+      return next(new CustomError('Token is Expired', 401));
+    }
+    const user = await User.findById(decoded.id);
+
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      profile_img: user.profile_img,
+    });
+    next();
+  });
 });
 
 const logout = asyncErrorWrapper(async (req, res, next) => {
@@ -195,4 +232,5 @@ module.exports = {
   resetPassword,
   editPersonalInfo,
   followUser,
+  verifyToken,
 };

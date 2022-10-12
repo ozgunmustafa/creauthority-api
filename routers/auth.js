@@ -9,6 +9,7 @@ const {
   resetPassword,
   editPersonalInfo,
   followUser,
+  verifyToken,
 } = require('../controllers/auth');
 const { getAccessToRoute } = require('../middlewares/authorization/auth');
 const {
@@ -20,6 +21,7 @@ const router = express.Router();
 router.get('/:user_id/follow', getAccessToRoute, followUser);
 router.post('/register', register);
 router.post('/login', login);
+router.post('/verify-token', verifyToken);
 router.get('/logout', getAccessToRoute, logout);
 router.post('/forgot-password', forgotPassword);
 router.put('/edit', getAccessToRoute, editPersonalInfo);
