@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 const Category = require('./Category');
+//var User = require('./User.js');
 
 const Schema = mongoose.Schema;
 const PostSchema = new Schema({
@@ -54,6 +55,7 @@ PostSchema.pre('save', async function (next) {
   }
   try {
     const category = await Category.findById(this.category);
+
     category.posts.push(this._id);
     await category.save();
     next();

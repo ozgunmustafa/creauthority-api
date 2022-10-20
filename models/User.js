@@ -1,10 +1,10 @@
-const mongose = require('mongoose');
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const Post = require('./Post');
+const Post = require('./Post.js');
 
-const Schema = mongose.Schema;
+const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   name: {
@@ -65,25 +65,25 @@ const UserSchema = new Schema({
   },
   likes: [
     {
-      type: mongose.Schema.ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'Post',
     },
   ],
   followers: [
     {
-      type: mongose.Schema.ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
   ],
   followingCategory: [
     {
-      type: mongose.Schema.ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'Category',
     },
   ],
   followingUser: [
     {
-      type: mongose.Schema.ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
   ],
@@ -136,4 +136,4 @@ UserSchema.post('remove', async function () {
   });
 });
 
-module.exports = mongose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
