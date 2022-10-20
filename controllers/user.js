@@ -26,6 +26,11 @@ const getPopularUsers = asyncErrorWrapper(async (req, res, next) => {
   });
 });
 
+const getUserPosts = asyncErrorWrapper(async (req, res, next) => {
+  const { id } = req.params;
+ 
+} )
+
 module.exports = {
   getSingleUser,
   getUsers,

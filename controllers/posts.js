@@ -22,12 +22,17 @@ const getAllPost = asyncErrorWrapper(async (req, res, next) => {
 });
 
 const createPost = asyncErrorWrapper(async (req, res, next) => {
-  const information = req.body;
+  const { title, content, categoryId } = req.body;
+
   const post = await Post.create({
-    ...information,
+    title,
+    content,
     user: req.user.id,
-    category: req.body.categoryId,
+    category: categoryId,
   });
+
+
+
   res.status(200).json({
     success: true,
     message: 'Post created successfully!',
