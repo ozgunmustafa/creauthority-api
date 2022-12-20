@@ -4,12 +4,11 @@ const CustomError = require('../helpers/error/CustomError');
 const asyncErrorWrapper = require('express-async-handler');
 
 const addNewCommentToPost = asyncErrorWrapper(async (req, res, next) => {
-  const { post_id } = req.params;
   const user_id = req.user.id;
-  const information = req.body;
+  const { post_id, content } = req.body;
 
   const comment = await Comment.create({
-    ...information,
+    content: content,
     post: post_id,
     user: user_id,
   });
@@ -32,8 +31,6 @@ const getAllCommentsByPost = asyncErrorWrapper(async (req, res, next) => {
   });
 
   const comments = post.comments;
-
-  console.log(comments);
 
   return res.status(200).json({
     success: true,

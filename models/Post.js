@@ -55,8 +55,9 @@ PostSchema.pre('save', async function (next) {
   }
   try {
     const category = await Category.findById(this.category);
-
-    category.posts.push(this._id);
+    if (!category.posts.includes(this._id)) {
+      category.posts.push(this._id);
+    }
     await category.save();
     next();
   } catch (err) {
