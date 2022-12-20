@@ -2,7 +2,7 @@
 
 #### Get all items
 
-    API Erişim Adresi: https://whthpnd-backend-api.herokuapp.com/api
+    API Erişim Adresi: https://creauthority-api.onrender.com/api/
 
 ### POSTS
 
